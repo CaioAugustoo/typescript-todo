@@ -5,8 +5,7 @@ export class todos {
         this.wrapper = document.querySelector("section");
         this.init();
     }
-    addTask(e) {
-        e.preventDefault();
+    addTask() {
         const tasks = JSON.parse(localStorage.getItem("@todos:TODO")) || [];
         const task = {
             id: new Date().getTime(),
@@ -14,6 +13,12 @@ export class todos {
         };
         tasks.push(task);
         localStorage.setItem("@todos:TODO", JSON.stringify(tasks));
+        if (tasks.title)
+            return tasks;
+    }
+    listTasks() {
+        const tasks = this.addTask();
+        tasks.map(task => console.log(task));
     }
     events() {
         this.form.addEventListener("submit", this.addTask);
@@ -24,5 +29,6 @@ export class todos {
     init() {
         this.bindEvents();
         this.events();
+        this.listTasks();
     }
 }
