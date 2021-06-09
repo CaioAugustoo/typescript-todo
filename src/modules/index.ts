@@ -50,12 +50,13 @@ function createTask(task: Task) {
   element.appendChild(taskTitle);
   wrapper.appendChild(element);
 
+  quantity.innerHTML = `Suas ${savedTasks.length} tarefas:`;
+
   return element;
 }
 
 function listTasks() {
   if (!savedTasks) return;
-  quantity.innerHTML = `Suas ${savedTasks.length} tarefas:`;
   savedTasks.map(task => createTask(task));
 }
 
