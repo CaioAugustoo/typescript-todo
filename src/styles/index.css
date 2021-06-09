@@ -24,7 +24,7 @@ body {
   align-items: center;
 }
 
-.btn {
+button {
   padding: 12px 25px;
 
   border-radius: 4px;
@@ -38,7 +38,7 @@ body {
   transition: background 0.2s ease;
 }
 
-.btn:hover {
+button:hover {
   background: #0486c7;
 }
 
@@ -59,6 +59,8 @@ main {
   border-radius: 9px;
 
   padding: 3rem;
+
+  overflow-y: auto;
 }
 
 .box__wrapper .heading {
@@ -90,4 +92,25 @@ main {
 .box__wrapper input:focus {
   outline: none;
   border: 1px solid #00aaff;
+}
+
+.task {
+  background: #f8f8f8;
+  border-radius: 5px;
+
+  padding: 15px 10px;
+  margin: 10px 0px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task h1 {
+  font-weight: 400;
+}
+
+.tasks__quantity {
+  font-size: 1.6rem;
+  margin: 2rem 0;
 }

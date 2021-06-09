@@ -1,13 +1,15 @@
 const form = document.querySelector("form");
 const input = document.querySelector("input");
 const wrapper = document.querySelector("section");
+const quantity = document.querySelector(".tasks__quantity");
 const savedTasks = JSON.parse(localStorage.getItem("@todos"));
 function clearInputValue() {
     input.value = "";
     input.focus();
+    return;
 }
 function saveTaskInLocalStorage(todos) {
-    localStorage.setItem("@todos", JSON.stringify(todos));
+    return localStorage.setItem("@todos", JSON.stringify(todos));
 }
 function saveTask(e) {
     e.preventDefault();
@@ -27,17 +29,18 @@ function saveTask(e) {
 form.addEventListener("submit", saveTask);
 function createTask(task) {
     const element = document.createElement("div");
-    element.classList.add("task");
     const taskTitle = document.createElement("h1");
-    element.appendChild(taskTitle);
+    element.classList.add("task");
     taskTitle.innerHTML = task.title;
+    element.appendChild(taskTitle);
     wrapper.appendChild(element);
+    return element;
 }
 function listTasks() {
     if (!savedTasks)
         return;
-    savedTasks.map(todo => {
-        createTask(todo);
-    });
+    quantity.innerHTML = `Suas ${savedTasks.length} tarefas:`;
+    savedTasks.map(task => createTask(task));
 }
 listTasks();
+export {};

@@ -1,3 +1,0 @@
-function createTask() {}
-
-function listTasks() {}
