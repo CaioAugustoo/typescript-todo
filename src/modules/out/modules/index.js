@@ -8,8 +8,12 @@ function clearInputValue() {
     input.focus();
     return;
 }
-function saveTaskInLocalStorage(todos) {
-    return localStorage.setItem("@todos", JSON.stringify(todos));
+function saveTaskInLocalStorage(task) {
+    return localStorage.setItem("@todos", JSON.stringify(task));
+}
+function deleteTask(task) {
+    const deletedTask = savedTasks.filter((e) => e.id !== task.id);
+    saveTaskInLocalStorage(deletedTask);
 }
 function saveTask(e) {
     e.preventDefault();
@@ -30,11 +34,21 @@ form.addEventListener("submit", saveTask);
 function createTask(task) {
     const element = document.createElement("div");
     const taskTitle = document.createElement("h1");
+    const buttonDelete = document.createElement("button");
     element.classList.add("task");
     taskTitle.innerHTML = task.title;
     element.appendChild(taskTitle);
     wrapper.appendChild(element);
     quantity.innerHTML = `Suas ${savedTasks.length} tarefas:`;
+    element.classList.add("task");
+    taskTitle.innerHTML = task.title;
+    buttonDelete.innerText = "Deletar";
+    element.appendChild(taskTitle);
+    element.appendChild(buttonDelete);
+    wrapper.appendChild(element);
+    buttonDelete.addEventListener('click', (e) => {
+        deleteTask(task);
+    });
     return element;
 }
 function listTasks() {

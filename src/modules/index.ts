@@ -14,8 +14,13 @@ function clearInputValue() {
   return;
 }
 
-function saveTaskInLocalStorage(todos: Task[]) {
-  return localStorage.setItem("@todos", JSON.stringify(todos));
+function saveTaskInLocalStorage(task: Task[]) {
+  return localStorage.setItem("@todos", JSON.stringify(task));
+}
+
+function deleteTask(task: Task) {
+  const deletedTask = savedTasks.filter((e) => e.id !== task.id)
+  saveTaskInLocalStorage(deletedTask)
 }
 
 function saveTask(e: { preventDefault: () => void }) {
@@ -43,6 +48,7 @@ form.addEventListener("submit", saveTask);
 function createTask(task: Task) {
   const element = document.createElement("div");
   const taskTitle = document.createElement("h1");
+  const buttonDelete = document.createElement("button")
 
   element.classList.add("task");
   taskTitle.innerHTML = task.title;
@@ -51,6 +57,18 @@ function createTask(task: Task) {
   wrapper.appendChild(element);
 
   quantity.innerHTML = `Suas ${savedTasks.length} tarefas:`;
+
+  element.classList.add("task");
+  taskTitle.innerHTML = task.title;
+  buttonDelete.innerText = "Deletar";
+
+  element.appendChild(taskTitle);
+  element.appendChild(buttonDelete);
+  wrapper.appendChild(element);
+
+  buttonDelete.addEventListener('click', (e) => {
+    deleteTask(task)
+  })
 
   return element;
 }
