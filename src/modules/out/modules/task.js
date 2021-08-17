@@ -1,10 +1,11 @@
 import { STORAGE_KEY } from "../constants/index.js";
 export class Task {
-    constructor(form, taskWrapper, taskTitle) {
+    constructor(form, wrapper, title, quantity) {
         this.tasks = [];
         this.form = document.querySelector(form);
-        this.taskWrapper = document.querySelector(taskWrapper);
-        this.taskTitle = document.querySelector(taskTitle);
+        this.wrapper = document.querySelector(wrapper);
+        this.title = document.querySelector(title);
+        this.quantity = document.querySelector(quantity);
         this.bindEvents();
         this.events();
         this.getStorageItems();
@@ -12,7 +13,7 @@ export class Task {
     create() {
         const task = {
             id: new Date().getTime(),
-            title: this.taskTitle.value,
+            title: this.title.value,
             created_at: new Date(),
         };
         const isTaskTitleValid = this.validateTitle();
@@ -27,14 +28,14 @@ export class Task {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this.tasks));
     }
     validateTitle() {
-        if (!this.taskTitle.value.trim().length) {
+        if (!this.title.value.trim().length) {
             return false;
         }
         return true;
     }
     clearTitle() {
-        this.taskTitle.value = "";
-        this.taskTitle.focus();
+        this.title.value = "";
+        this.title.focus();
     }
     createElement(task) {
         const taskWrapper = document.createElement("div");
@@ -53,6 +54,7 @@ export class Task {
         const newTasks = this.tasks.filter(({ id }) => id !== task.id);
         this.tasks = newTasks;
         this.saveInStorage();
+        this.tasksQuantity();
         const clickedElement = e.target;
         clickedElement.parentElement.remove();
         return newTasks;
@@ -63,14 +65,18 @@ export class Task {
         this.tasks.forEach(task => this.renderDom(task));
         return taskInStorage;
     }
+    tasksQuantity() {
+        this.quantity.innerHTML = `Sua(s) ${this.tasks.length} tarefas:`;
+    }
     renderDom(task) {
         this.createElement(task);
         this.addToDom(task);
+        this.tasksQuantity();
         return task;
     }
     addToDom(task) {
         const createdElement = this.createElement(task);
-        this.taskWrapper.appendChild(createdElement);
+        this.wrapper.appendChild(createdElement);
         return task;
     }
     submitForm(event) {
