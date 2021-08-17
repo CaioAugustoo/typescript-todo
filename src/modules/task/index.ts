@@ -1,9 +1,10 @@
 import {
   getItemFromStorage,
   setItemInStorage,
-} from "../utils/localStorage/index.js";
+} from "../../utils/localStorage/index";
 
-import { ITask } from "../types/index.js";
+import { ITask } from "../../types/index";
+import { validateInput } from "../../utils/validations/input.js";
 
 export class Task {
   private form: HTMLFormElement;
@@ -31,7 +32,7 @@ export class Task {
       created_at: new Date(),
     };
 
-    const isTaskTitleValid = this.validateTitle();
+    const isTaskTitleValid = validateInput(this.title.value);
     if (!isTaskTitleValid) return;
 
     this.tasks.push(task);
@@ -40,47 +41,17 @@ export class Task {
     this.saveInStorage();
   }
 
-  private saveInStorage(): void {
-    setItemInStorage(this.tasks);
-  }
-
-  private validateTitle(): boolean {
-    if (!this.title.value.trim().length) {
-      return false;
-    }
-    return true;
-  }
-
   private clearTitle(): void {
     this.title.value = "";
     this.title.focus();
   }
 
-  private createElement(task: ITask): HTMLDivElement {
-    const taskWrapper = document.createElement("div");
-    const taskTitle = document.createElement("h1");
-    const taskButton = document.createElement("button");
-
-    taskWrapper.classList.add("task");
-    taskButton.classList.add("btn");
-
-    taskWrapper.appendChild(taskTitle);
-    taskWrapper.appendChild(taskButton);
-
-    taskTitle.innerHTML = task.title;
-    taskButton.innerText = "Deletar";
-
-    taskButton.addEventListener("click", e => this.deleteTask(e, task));
-
-    return taskWrapper;
-  }
-
-  private deleteTask(e: MouseEvent, task: ITask): ITask[] {
+  private delete(e: MouseEvent, task: ITask): ITask[] {
     const newTasks = this.tasks.filter(({ id }) => id !== task.id);
     this.tasks = newTasks;
 
     this.saveInStorage();
-    this.tasksQuantity();
+    this.showQuantity();
 
     const clickedElement = e.target as HTMLElement;
     clickedElement.parentElement.remove();
@@ -97,14 +68,37 @@ export class Task {
     return taskInStorage;
   }
 
-  private tasksQuantity() {
+  private saveInStorage(): void {
+    setItemInStorage(this.tasks);
+  }
+
+  private showQuantity() {
     this.quantity.innerHTML = `Sua(s) ${this.tasks.length} tarefas:`;
+  }
+
+  private createElement(task: ITask): HTMLDivElement {
+    const taskWrapper = document.createElement("div");
+    const taskTitle = document.createElement("h1");
+    const taskButton = document.createElement("button");
+
+    taskWrapper.classList.add("task");
+    taskButton.classList.add("btn");
+
+    taskWrapper.appendChild(taskTitle);
+    taskWrapper.appendChild(taskButton);
+
+    taskTitle.innerHTML = task.title;
+    taskButton.innerText = "Deletar";
+
+    taskButton.addEventListener("click", e => this.delete(e, task));
+
+    return taskWrapper;
   }
 
   private renderDom(task: ITask): ITask {
     this.createElement(task);
     this.addToDom(task);
-    this.tasksQuantity();
+    this.showQuantity();
 
     return task;
   }
