@@ -2,6 +2,6 @@
   "compilerOptions": {
     "target": "es6",
     "sourceMap": false,
-    "outDir": "src/modules/out"
+    "outDir": "src/modules/out",
   }
 }

@@ -1,4 +1,8 @@
-import { STORAGE_KEY } from "../constants/index.js";
+import {
+  getItemFromStorage,
+  setItemInStorage,
+} from "../utils/localStorage/index.js";
+
 import { ITask } from "../types/index.js";
 
 export class Task {
@@ -37,7 +41,7 @@ export class Task {
   }
 
   private saveInStorage(): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.tasks));
+    setItemInStorage(this.tasks);
   }
 
   private validateTitle(): boolean {
@@ -85,8 +89,7 @@ export class Task {
   }
 
   private getFromStorage(): ITask[] {
-    const taskInStorage: ITask[] =
-      JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    const taskInStorage = getItemFromStorage() || [];
 
     this.tasks = taskInStorage;
     this.tasks.forEach(task => this.renderDom(task));
