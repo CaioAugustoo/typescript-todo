@@ -1,4 +1,4 @@
-import { STORAGE_KEY } from "../constants/index.js";
+import { getItemFromStorage, setItemInStorage, } from "../utils/localStorage/index.js";
 export class Task {
     constructor(form, wrapper, title, quantity) {
         this.tasks = [];
@@ -25,7 +25,7 @@ export class Task {
         this.saveInStorage();
     }
     saveInStorage() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.tasks));
+        setItemInStorage(this.tasks);
     }
     validateTitle() {
         if (!this.title.value.trim().length) {
@@ -60,7 +60,7 @@ export class Task {
         return newTasks;
     }
     getFromStorage() {
-        const taskInStorage = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        const taskInStorage = getItemFromStorage() || [];
         this.tasks = taskInStorage;
         this.tasks.forEach(task => this.renderDom(task));
         return taskInStorage;
