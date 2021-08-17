@@ -3,24 +3,27 @@ import { ITask } from "../types/index.js";
 
 export class Task {
   private form: HTMLFormElement;
-  private tasks: ITask[] = [];
-  private taskWrapper: Element;
-  private taskTitle: HTMLInputElement;
+  private title: HTMLInputElement;
+  private wrapper: Element;
+  private quantity: Element;
 
-  constructor(form: string, taskWrapper: string, taskTitle: string) {
+  private tasks: ITask[] = [];
+
+  constructor(form: string, wrapper: string, title: string, quantity: string) {
     this.form = document.querySelector(form);
-    this.taskWrapper = document.querySelector(taskWrapper);
-    this.taskTitle = document.querySelector(taskTitle);
+    this.wrapper = document.querySelector(wrapper);
+    this.title = document.querySelector(title);
+    this.quantity = document.querySelector(quantity);
 
     this.bindEvents();
     this.events();
-    this.getStorageItems();
+    this.getFromStorage();
   }
 
   private create(): void {
     const task: ITask = {
       id: new Date().getTime(),
-      title: this.taskTitle.value,
+      title: this.title.value,
       created_at: new Date(),
     };
 
@@ -38,15 +41,15 @@ export class Task {
   }
 
   private validateTitle(): boolean {
-    if (!this.taskTitle.value.trim().length) {
+    if (!this.title.value.trim().length) {
       return false;
     }
     return true;
   }
 
   private clearTitle(): void {
-    this.taskTitle.value = "";
-    this.taskTitle.focus();
+    this.title.value = "";
+    this.title.focus();
   }
 
   private createElement(task: ITask): HTMLDivElement {
@@ -73,6 +76,7 @@ export class Task {
     this.tasks = newTasks;
 
     this.saveInStorage();
+    this.tasksQuantity();
 
     const clickedElement = e.target as HTMLElement;
     clickedElement.parentElement.remove();
@@ -80,7 +84,7 @@ export class Task {
     return newTasks;
   }
 
-  private getStorageItems(): ITask[] {
+  private getFromStorage(): ITask[] {
     const taskInStorage: ITask[] =
       JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
@@ -90,16 +94,21 @@ export class Task {
     return taskInStorage;
   }
 
+  private tasksQuantity() {
+    this.quantity.innerHTML = `Sua(s) ${this.tasks.length} tarefas:`;
+  }
+
   private renderDom(task: ITask): ITask {
     this.createElement(task);
     this.addToDom(task);
+    this.tasksQuantity();
 
     return task;
   }
 
   private addToDom(task: ITask): ITask {
     const createdElement: HTMLDivElement = this.createElement(task);
-    this.taskWrapper.appendChild(createdElement);
+    this.wrapper.appendChild(createdElement);
 
     return task;
   }
