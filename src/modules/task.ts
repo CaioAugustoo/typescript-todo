@@ -17,7 +17,7 @@ export class Task {
 
     this.bindEvents();
     this.events();
-    this.getStorageItems();
+    this.getFromStorage();
   }
 
   private create(): void {
@@ -84,7 +84,7 @@ export class Task {
     return newTasks;
   }
 
-  private getStorageItems(): ITask[] {
+  private getFromStorage(): ITask[] {
     const taskInStorage: ITask[] =
       JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 

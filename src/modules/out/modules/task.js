@@ -8,7 +8,7 @@ export class Task {
         this.quantity = document.querySelector(quantity);
         this.bindEvents();
         this.events();
-        this.getStorageItems();
+        this.getFromStorage();
     }
     create() {
         const task = {
@@ -59,7 +59,7 @@ export class Task {
         clickedElement.parentElement.remove();
         return newTasks;
     }
-    getStorageItems() {
+    getFromStorage() {
         const taskInStorage = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         this.tasks = taskInStorage;
         this.tasks.forEach(task => this.renderDom(task));
