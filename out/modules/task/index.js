@@ -1,4 +1,4 @@
-import { getItemFromStorage, setItemInStorage, } from "../../utils/localStorage/index";
+import { getItemFromStorage, setItemInStorage, } from "../../utils/localStorage/index.js";
 import { validateInput } from "../../utils/validations/input.js";
 export class Task {
     constructor(form, wrapper, title, quantity) {

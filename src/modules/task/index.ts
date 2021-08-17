@@ -1,7 +1,7 @@
 import {
   getItemFromStorage,
   setItemInStorage,
-} from "../../utils/localStorage/index";
+} from "../../utils/localStorage/index.js";
 
 import { ITask } from "../../types/index";
 import { validateInput } from "../../utils/validations/input.js";
