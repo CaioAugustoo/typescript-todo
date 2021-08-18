@@ -72,7 +72,7 @@ export class Task {
     setItemInStorage(this.tasks);
   }
 
-  private showQuantity() {
+  private showQuantity(): void {
     this.quantity.innerHTML = `Sua(s) ${this.tasks.length} tarefas:`;
   }
 
